@@ -2,7 +2,9 @@
 
 Ship consistent logs from FoundationDB to Kafka.
 
-## Usage example
+## Usage
+
+Example Kubernetes configuration:
 
 ```yaml
 ---
