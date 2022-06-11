@@ -168,6 +168,12 @@ func (s *Service) ShipOnce() error {
 	for i, entry := range log {
 		messages[i].Value = entry.Data
 		messages[i].Key = entry.Key(localLogger, s.config.KeyQuery)
+		messages[i].Headers = []kafka.Header{
+			{
+				Key:   "versionstamp",
+				Value: []byte(hex.EncodeToString(entry.Versionstamp[:])),
+			},
+		}
 	}
 
 	for {
