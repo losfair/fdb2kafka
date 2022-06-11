@@ -26,7 +26,7 @@ func main() {
 		Flags: []cli.Flag{
 			&cli.StringFlag{
 				Name:     "cluster",
-				Required: true,
+				Required: false,
 				Value:    "/etc/foundationdb/fdb.cluster",
 				Usage:    "fdb cluster file path",
 				EnvVars:  []string{"SERVICE_CLUSTER"},
@@ -57,12 +57,12 @@ func main() {
 			},
 			&cli.IntFlag{
 				Name:     "batch-size",
-				Required: true,
+				Required: false,
 				Value:    1000,
 				Usage:    "max batch size",
 				EnvVars:  []string{"SERVICE_BATCH_SIZE"},
 			},
-			&cli.IntFlag{
+			&cli.StringFlag{
 				Name:     "key-query",
 				Required: false,
 				Usage:    "gabs query to extract key from message",

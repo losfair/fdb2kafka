@@ -7,6 +7,7 @@ import (
 
 	"github.com/Jeffail/gabs/v2"
 	"github.com/apple/foundationdb/bindings/go/src/fdb"
+	"github.com/losfair/fdb2kafka/util"
 	"github.com/pkg/errors"
 	"github.com/segmentio/kafka-go"
 	"go.uber.org/zap"
@@ -48,12 +49,12 @@ func NewService(logger *zap.Logger, config ServiceConfig) (*Service, error) {
 		BatchTimeout:           10 * time.Millisecond,
 	}
 
-	cursorTuple, err := parseTuple(config.CursorPath)
+	cursorTuple, err := util.ParseTuple(config.CursorPath)
 	if err != nil {
 		return nil, errors.Wrap(err, "failed to parse cursor path")
 	}
 
-	logTuple, err := parseTuple(config.LogPath)
+	logTuple, err := util.ParseTuple(config.LogPath)
 	if err != nil {
 		return nil, errors.Wrap(err, "failed to parse log path")
 	}
@@ -123,7 +124,7 @@ func (s *Service) ShipOnce() error {
 	if err != nil {
 		return err
 	}
-	r.Begin = fdb.Key(append(append([]byte{}, s.logPrefix...), s.cursor[:]...))
+	r.Begin = fdb.Key(append(append(append([]byte{}, s.logPrefix...), s.cursor[:]...), 0x00))
 
 	var log []LogEntry
 	_, err = s.db.ReadTransact(func(rt fdb.ReadTransaction) (interface{}, error) {

@@ -1,4 +1,4 @@
-package main
+package util
 
 import (
 	"encoding/json"
@@ -7,7 +7,7 @@ import (
 	"github.com/pkg/errors"
 )
 
-func parseTuple(raw string) (tuple.Tuple, error) {
+func ParseTuple(raw string) (tuple.Tuple, error) {
 	var segments []string
 	err := json.Unmarshal([]byte(raw), &segments)
 	if err != nil {
